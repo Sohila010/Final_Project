@@ -1,6 +1,12 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import "../../node_modules/@fortawesome/fontawesome-free/css/all.min.css";
 import "./globals.css";
+import Navbar from "./_components/Navbar/Navbar";
+import { Toaster } from "@/components/ui/sonner"
+import MySessionProvider from "@/MySessionProvider/MySessionProvider";
+import CartContextProvider from "@/context/CartContext";
+
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -27,7 +33,17 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+{/* it will wrap the whole application as it has a session provider that will provide all the client comp
+with session data
+*/}
+    <MySessionProvider>
+
+          <CartContextProvider>
+        <Navbar/>
         {children}
+            <Toaster />
+            </CartContextProvider>
+          </MySessionProvider>
       </body>
     </html>
   );
