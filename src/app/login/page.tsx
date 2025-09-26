@@ -3,7 +3,6 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import {  useForm } from 'react-hook-form'
 import { fields } from './../../../node_modules/@hookform/resolvers/ajv/src/__tests__/__fixtures__/data';
 import { Input } from '@/components/ui/input';
-import { type } from './../../../node_modules/swiper/types/modules/public-api.d';
 import { Button } from '@/components/ui/button';
 import { zodResolver } from '@hookform/resolvers/zod';
 import axios from 'axios';

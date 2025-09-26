@@ -6,6 +6,7 @@ import updateProductQuantity from '@/CartActions/updateCartProductQuantity.actio
 import { Button } from '@/components/ui/button'
 import { CartContext } from '@/context/CartContext'
 import { CartProductType } from '@/types/cart.type'
+import Link from 'next/link'
 import React, { useContext, useEffect, useState } from 'react'
 import { toast } from 'sonner'
 
@@ -16,14 +17,16 @@ export default function Carts() {
   const [updateLoading, setupdateLoading] = useState(false)
   const [currentId, setcurrentId] = useState("")
   let{numberOfCartItems,setnumberOfCartItems}=useContext(CartContext)
-const [totalPrice, settotalPrice] = useState(0)
+  const [totalPrice, settotalPrice] = useState(0)
+  const [cartId, setcartId] = useState("")
 //will show cart of logged user
 
   async function getUserCart() {
     try{let res = await getLoggedUserCart()
-    console.log(res);
-    if (res.status == "success") {
-      //set state of products
+      if (res.status == "success") {
+        //set state of products
+        console.log(res.cartId);
+        setcartId(res.cartId)
       setisLoading(false)
       setproducts(res.data.products)
       settotalPrice(res.data.totalCartPrice);
@@ -203,7 +206,23 @@ setupdateLoading(false)
     </tbody>
   </table>
 </div>
-</div>:<h1 className='text-center text-3xl font-bold my-12 text-red-600'>No Product Added To Cart Yet</h1>} 
+        {/* <Link href={`/checkout/${cartId}`}>
+        <Button className='bg-emerald-500 text-white w-full cursor-pointer my-4 p-5 hover:bg-emerald-600'>Check Out Now</Button>
+        </Link> */}
+        <div className='flex items-center gap-4 mt-4'>
+          <Link href={`/checkout/${cartId}`} className='flex-1'>
+            <Button className='bg-emerald-500 text-white w-full cursor-pointer p-5 hover:bg-emerald-600'>
+              Pay Online Now
+            </Button>
+          </Link>
+          <Link href={`/cash-checkout/${cartId}`} className='flex-1'>
+            <Button className='bg-emerald-500 text-white w-full cursor-pointer p-5 hover:bg-emerald-600'>
+              Pay with Cash
+            </Button>
+          </Link>
+        </div>
+</div>
+:<h1 className='text-center text-3xl font-bold my-12 text-red-600'>No Product Added To Cart Yet</h1>} 
 
   </>
 }
